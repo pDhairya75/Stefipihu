@@ -10,7 +10,579 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style2.css">
+
+    <style>
+        /* Core Stylesheet for Pihuu's Proposal Page */
+
+        :root {
+            --bg-start: hsl(345, 100%, 97%);
+            --bg-end: hsl(320, 100%, 95%);
+            --primary-pink: hsl(340, 95%, 65%);
+            --primary-hover: hsl(340, 90%, 55%);
+            --primary-glow: hsla(340, 95%, 65%, 0.3);
+            --secondary-pink: hsl(340, 40%, 94%);
+            --secondary-hover: hsl(340, 45%, 88%);
+            --text-color: hsl(340, 50%, 25%);
+            --text-muted: hsl(340, 30%, 45%);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(255, 255, 255, 0.6);
+            --font-heading: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-script: 'Caveat', cursive;
+            --shadow-sm: 0 4px 10px rgba(220, 100, 120, 0.05);
+            --shadow-md: 0 10px 30px rgba(220, 100, 120, 0.1);
+            --shadow-lg: 0 20px 50px rgba(220, 100, 120, 0.15);
+        }
+
+        /* Global Reset & Base Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+            color: var(--text-color);
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Background Animations and Blobs */
+        .bg-decorations {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: floatBlob 25s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            width: 350px;
+            height: 350px;
+            background: hsl(340, 100%, 85%);
+            top: -10%;
+            left: -10%;
+            animation-duration: 20s;
+        }
+
+        .blob-2 {
+            width: 450px;
+            height: 450px;
+            background: hsl(315, 100%, 88%);
+            bottom: -15%;
+            right: -10%;
+            animation-duration: 28s;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: hsl(280, 100%, 90%);
+            top: 50%;
+            left: 70%;
+            animation-duration: 22s;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatBlob {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            100% {
+                transform: translate(50px, 80px) scale(1.15) rotate(360deg);
+            }
+        }
+
+        /* Main Container Layout */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 24px;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Card Design & Glassmorphism */
+        .card {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 36px 28px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        opacity 0.6s ease-in-out, 
+                        visibility 0.6s;
+            transform-origin: center;
+        }
+
+        .card.hidden {
+            opacity: 0;
+            transform: scale(0.85) translateY(40px);
+            position: absolute;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .card.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            position: relative;
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        /* Card Decorative Floating Elements */
+        .card-decor {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .decor-emoji {
+            position: absolute;
+            font-size: 1.5rem;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.05));
+        }
+
+        .float-1 {
+            top: 20px;
+            left: 20px;
+            animation: floatUpDown 3s ease-in-out infinite alternate;
+        }
+
+        .float-2 {
+            top: 50px;
+            right: 25px;
+            animation: floatUpDown 4s ease-in-out infinite alternate -1s;
+        }
+
+        .float-3 {
+            bottom: 30px;
+            left: 25px;
+            animation: floatUpDown 3.5s ease-in-out infinite alternate -2s;
+        }
+
+        @keyframes floatUpDown {
+            0% { transform: translateY(0) rotate(-5deg); }
+            100% { transform: translateY(-10px) rotate(10deg); }
+        }
+
+        /* Illustration Area */
+        .illustration-wrapper {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .chibi-img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            filter: drop-shadow(0 8px 16px rgba(220, 100, 120, 0.15));
+            animation: popInImg 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes popInImg {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .svg-container {
+            animation: floatBear 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatBear {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-8px) scale(1.02); }
+        }
+
+        .heart-pulse {
+            transform-origin: 100px 130px;
+            animation: heartBeatPulse 1.2s infinite ease-in-out;
+        }
+
+        @keyframes heartBeatPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* Headings and Text Content */
+        .proposal-title {
+            font-family: var(--font-heading);
+            font-size: 1.85rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+
+        .proposal-subtitle {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            padding: 0 10px;
+        }
+
+        /* Buttons Styling */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .btn {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-width: 120px;
+        }
+
+        /* Yes Button (Primary, glowing, pulsing) */
+        .btn-yes {
+            background: linear-gradient(135deg, hsl(340, 95%, 65%), hsl(355, 95%, 65%));
+            color: #ffffff;
+            box-shadow: 0 10px 20px var(--primary-glow);
+            position: relative;
+            overflow: hidden;
+            animation: pulseYes 2s infinite alternate;
+        }
+
+        @keyframes pulseYes {
+            0% { transform: scale(1); box-shadow: 0 6px 15px var(--primary-glow); }
+            100% { transform: scale(1.06); box-shadow: 0 12px 25px rgba(220, 100, 120, 0.5); }
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-3px) scale(1.08);
+            background: linear-gradient(135deg, var(--primary-hover), hsl(355, 90%, 55%));
+            box-shadow: 0 15px 30px rgba(220, 100, 120, 0.6);
+        }
+
+        .btn-yes:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Button Shine Effect */
+        .btn-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: skewX(-25deg);
+            transition: 0.75s;
+            animation: shineEffect 3s infinite ease-in-out;
+        }
+
+        @keyframes shineEffect {
+            0% { left: -100%; }
+            30% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* No Button (Secondary, neutral) */
+        .btn-no {
+            background: var(--secondary-pink);
+            color: var(--text-color);
+            border: 1px solid rgba(220, 100, 120, 0.15);
+        }
+
+        .btn-no:hover {
+            transform: translateY(-2px);
+            background: var(--secondary-hover);
+            color: hsl(340, 60%, 20%);
+        }
+
+        .btn-no:active {
+            transform: translateY(1px);
+        }
+
+        /* Success Card Elements */
+        .success-title {
+            font-family: var(--font-heading);
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: hsl(340, 95%, 60%);
+            margin-bottom: 16px;
+            animation: bounceText 1s ease;
+        }
+
+        @keyframes bounceText {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-12px); }
+            60% { transform: translateY(-6px); }
+        }
+
+        .special-message {
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            padding: 24px;
+            text-align: left;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .special-message p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+
+        .special-message p:last-child {
+            margin-bottom: 0;
+        }
+
+        .special-message .handwritten {
+            font-family: var(--font-script);
+            font-size: 1.9rem;
+            margin-bottom: 16px;
+            color: hsl(340, 90%, 55%);
+            font-weight: bold;
+        }
+
+        .special-message .closing {
+            font-family: var(--font-script);
+            font-size: 1.7rem;
+            text-align: right;
+            margin-top: 16px;
+            font-weight: bold;
+            color: hsl(340, 90%, 55%);
+        }
+
+        .btn-reset {
+            background: var(--secondary-pink);
+            color: var(--text-color);
+            font-size: 0.95rem;
+            padding: 10px 20px;
+            min-width: unset;
+            border-radius: 16px;
+        }
+
+        .btn-reset:hover {
+            background: var(--secondary-hover);
+            transform: rotate(-3deg) scale(1.05);
+        }
+
+        /* Custom Alert / Dialog Overlay */
+        .alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(220, 100, 120, 0.25);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .alert-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .alert-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 32px 24px;
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(220, 80, 100, 0.3);
+            border: 2px solid rgba(220, 100, 120, 0.1);
+            transform: scale(0.8) translateY(30px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .alert-overlay.active .alert-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .alert-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            animation: wiggleAlert 1.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes wiggleAlert {
+            0% { transform: rotate(-8deg) scale(0.95); }
+            100% { transform: rotate(8deg) scale(1.05); }
+        }
+
+        .alert-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: hsl(340, 80%, 45%);
+            margin-bottom: 12px;
+        }
+
+        .alert-message {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .btn-alert-close {
+            background: linear-gradient(135deg, hsl(340, 95%, 65%), hsl(355, 95%, 65%));
+            color: #ffffff;
+            width: 100%;
+            box-shadow: 0 6px 15px var(--primary-glow);
+        }
+
+        .btn-alert-close:hover {
+            background: linear-gradient(135deg, var(--primary-hover), hsl(355, 90%, 55%));
+            box-shadow: 0 10px 20px rgba(220, 100, 120, 0.4);
+        }
+
+        /* Background Hearts Rain Animation */
+        .hearts-rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .heart-particle {
+            position: absolute;
+            top: -50px;
+            font-size: 1.5rem;
+            pointer-events: none;
+            animation: heartFall linear forwards;
+            will-change: transform, opacity;
+        }
+
+        @keyframes heartFall {
+            0% {
+                transform: translateY(0) rotate(0deg) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.85;
+            }
+            90% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg) translateX(var(--drift));
+                opacity: 0;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+            }
+
+            .card {
+                padding: 30px 20px;
+                border-radius: 28px;
+            }
+
+            .proposal-title {
+                font-size: 1.6rem;
+            }
+
+            .proposal-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 24px;
+            }
+
+            .success-title {
+                font-size: 1.85rem;
+            }
+
+            .special-message {
+                padding: 18px;
+            }
+
+            .special-message .handwritten {
+                font-size: 1.6rem;
+            }
+
+            .special-message .closing {
+                font-size: 1.45rem;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+                width: 100%; /* stack buttons on small phones */
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -23,8 +595,6 @@
 
     <!-- Background Rain of Hearts Container -->
     <div class="hearts-rain-container" id="hearts-rain"></div>
-
-
 
     <!-- Main Container -->
     <main class="container">
@@ -142,8 +712,6 @@
                     <p>I promise to cherish you every single day, to make you laugh when you're down, and to love you unconditionally. Thank you for saying YES! 🥺✨</p>
                     <p class="closing">Yours forever and always, ❤️</p>
                 </div>
-
-
             </div>
         </div>
     </main>
@@ -159,7 +727,139 @@
     </div>
 
     <!-- Heart Particle Canvas or template for JS -->
-    <script src="script2.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const proposalCard = document.getElementById('proposal-card');
+            const successCard = document.getElementById('success-card');
+            const btnYes = document.getElementById('btn-yes');
+            const btnNo = document.getElementById('btn-no');
+            
+            const alertOverlay = document.getElementById('alert-overlay');
+            const btnAlertClose = document.getElementById('btn-alert-close');
+            
+            const heartsRainContainer = document.getElementById('hearts-rain');
+            
+            let rainIntervalId = null;
+            let isRainActive = false;
+
+            // List of emojis to rain down
+            const heartEmojis = [
+                '❤️', '💖', '💝', '💕', '💗', '💓', '💞', '💍', 
+                '🌸', '✨', '🧸', '🐣', '🍓', '🎀', '🎈'
+            ];
+
+            // Helper to start the rain of hearts
+            function startHeartsRain() {
+                if (isRainActive) return;
+                isRainActive = true;
+                
+                // Initial burst of hearts
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(createHeartParticle, i * 80);
+                }
+
+                // Continuous rain of hearts
+                rainIntervalId = setInterval(createHeartParticle, 120);
+            }
+
+            // Helper to stop the rain of hearts
+            function stopHeartsRain() {
+                if (!isRainActive) return;
+                isRainActive = false;
+                if (rainIntervalId) {
+                    clearInterval(rainIntervalId);
+                    rainIntervalId = null;
+                }
+                // Let existing particles fall and clear out
+            }
+
+            // Create a single falling heart particle
+            function createHeartParticle() {
+                if (!isRainActive) return;
+
+                const heart = document.createElement('div');
+                heart.classList.add('heart-particle');
+                
+                // Randomize emoji (mostly hearts, occasional sparkles/flowers)
+                const randomChoice = Math.random();
+                let emoji = '❤️';
+                if (randomChoice < 0.6) {
+                    // 60% chance for standard red/pink hearts
+                    const hearts = ['❤️', '💖', '💝', '💕', '💗', '💓', '💞'];
+                    emoji = hearts[Math.floor(Math.random() * hearts.length)];
+                } else if (randomChoice < 0.8) {
+                    // 20% chance for sparkles/flowers
+                    const flowers = ['🌸', '✨', '🎀', '🎈'];
+                    emoji = flowers[Math.floor(Math.random() * flowers.length)];
+                } else {
+                    // 20% chance for cute objects (bears, strawberries, etc.)
+                    const cuteStuff = ['🧸', '🐣', '🍓'];
+                    emoji = cuteStuff[Math.floor(Math.random() * cuteStuff.length)];
+                }
+
+                heart.innerHTML = emoji;
+
+                // Randomize styles
+                const startX = Math.random() * 100; // in vw
+                const size = Math.random() * 24 + 16; // 16px to 40px
+                const duration = Math.random() * 3 + 3; // 3s to 6s
+                const opacity = Math.random() * 0.5 + 0.45; // 0.45 to 0.95
+                const drift = Math.random() * 200 - 100; // -100px to 100px drift
+
+                heart.style.left = startX + 'vw';
+                heart.style.fontSize = size + 'px';
+                heart.style.animationDuration = duration + 's';
+                heart.style.opacity = opacity;
+                heart.style.setProperty('--drift', drift + 'px');
+
+                // Rotation direction
+                const rotSign = Math.random() > 0.5 ? 1 : -1;
+                heart.style.transform = `rotate(${Math.random() * 360 * rotSign}deg)`;
+
+                heartsRainContainer.appendChild(heart);
+
+                // Remove element after animation completes to avoid memory leak
+                setTimeout(() => {
+                    heart.remove();
+                }, duration * 1000 + 200);
+            }
+
+            // No Button handler
+            btnNo.addEventListener('click', () => {
+                // Show custom alert card overlay
+                alertOverlay.classList.add('active');
+
+                // Animate button removal
+                btnNo.style.transform = 'scale(0) rotate(-15deg)';
+                btnNo.style.opacity = '0';
+                
+                setTimeout(() => {
+                    btnNo.style.display = 'none';
+                }, 300);
+            });
+
+            // Close alert overlay handler
+            btnAlertClose.addEventListener('click', () => {
+                alertOverlay.classList.remove('active');
+            });
+
+            // Yes Button handler (Proposal accepted!)
+            btnYes.addEventListener('click', () => {
+                // Transition from Proposal card to Success card
+                proposalCard.classList.remove('active');
+                proposalCard.classList.add('hidden');
+                
+                setTimeout(() => {
+                    successCard.classList.remove('hidden');
+                    successCard.classList.add('active');
+                    
+                    // Trigger background rain of hearts
+                    startHeartsRain();
+                }, 400);
+            });
+        });
+    </script>
 </body>
 
 </html>
